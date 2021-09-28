@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.lang.System;
+
 
 /**
 * Práctica 1 del curso de Estructuras de Datos.
