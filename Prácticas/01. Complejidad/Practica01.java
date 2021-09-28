@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.lang.System;
 
-
 /**
 * Práctica 1 del curso de Estructuras de Datos.
 * @author Emmanuel Cruz Hernández.
@@ -10,7 +9,7 @@ import java.lang.System;
 */
 public class Practica01{
 
-	/** 
+	/**
 	* Hace la mezcla de dos arreglos ordenados desde la primera posición hasta
 	* una posición límite
 	* @param array1 el primer arreglo a mezlar
@@ -22,14 +21,14 @@ public class Practica01{
 	public static int[] mergeSortedArray(int[] array1, int n, int[] array2, int m){
 		if(n > array1.length || m > array2.length)
 			throw new RuntimeException("Límites no válidos");
-		
+
 		int[] result = new int[n + m];
 		int pointer;
 		for(pointer = 0; pointer < n; pointer++)
 			result[pointer] = array1[pointer];
 		for(int i = 0 ; i < m ; i++, pointer++)
 			result[pointer] = array2[i];
-		
+
 		// Ordenamiento del arreglo result
 		for(int j = 0; j < result.length - 1; j++){
 			for(int k = j+1; k < result.length; k++){
@@ -97,10 +96,46 @@ public class Practica01{
 		}
 	}
 
+    /**
+    * Rota un arreglo a la izquierda
+    * @param num el arreglo de entrada
+    * @param position la cantidad de espacios a rotar
+    */
+
+    public static void rotateArrayMejorado(int[] num, int position){
+
+        if(position < 0){
+            throw  new NegativeArraySizeException("'position' no puede ser negativo");
+        }
+        if(position > num.length){
+            throw new ArrayIndexOutOfBoundsException("'position' no puede ser mas grande que el arreglo");
+        }
+
+        //declara un arreglo auxiliar de tamano 'position'
+        //coloca los el numero de elementos establecidos por position del arreglo de entrada
+        int[] aux = new int[position];
+        for (int i = 0; i < position; i++) {
+            aux[i] = num[i];
+        }
+
+        //mueve los elementos restantes en el arreglo de entrada a la izquierda
+        for (int i = position; i < num.length; i++) {
+            num[i - position] = num[i];
+        }
+
+        //Coloca los elementos del arreglo aux en su lugar indicado
+        for (int i = num.length - position; i < num.length ; i++) {
+            num[i] = aux[i - (num.length - position)];
+        }
+        System.out.println(Arrays.toString(num));
+    }
+
 	public static void main(String[] args) {
 
 		String directorio1 = "Examples/ArrayExamples/";
 		String directorio2 = "Examples/BoardExamples/";
+        String directorio3 = "Tests/ArrayTests/";
+        String directorio4 = "Tests/BoardTests/";
 
 		// EJEMPLOS DE ACTIVIDAD 1
 		System.out.println("\nEJEMPLOS DE ACTIVIDAD 1\n");
@@ -119,8 +154,6 @@ public class Practica01{
 		int[] arrayC2 = ArrayReader.readArray(directorio1 + "ArrayC2.txt");
 		int[] resultC = mergeSortedArray(arrayC1, 4, arrayC2, 6);
 		System.out.println("Resultado C: "+Arrays.toString(resultC));
-
-
 
 		// EJEMPLOS DE ACTIVIDAD 2
 		System.out.println("\nEJEMPLOS DE ACTIVIDAD 2\n");
@@ -141,18 +174,28 @@ public class Practica01{
 		boolean boardResultD = isValidBoard(boardD);
 		System.out.println("El tablero D es válido: "+boardResultD);
 
-
 		// EJEMPLOS DE ACTIVIDAD 3
 		System.out.println("\nEJEMPLOS DE ACTIVIDAD 3\n");
 
-		rotateArray(arrayA1, 5);
-		rotateArray(arrayB1, 0);
-		rotateArray(arrayC1, 6);
+        String currentArray = "ArrayA2.txt";
+        int[] arrayR = ArrayReader.readArray(directorio1 + currentArray);
+        int[] arrayRM = ArrayReader.readArray(directorio1 + currentArray);
 
-		System.out.println("Arreglo A1 rotado 5 veces: " + Arrays.toString(arrayA1));
-		System.out.println("Arreglo B1 rotado 0 veces: " + Arrays.toString(arrayB1));
-		System.out.println("Arreglo C1 rotado 6 veces: " + Arrays.toString(arrayC1));
+        //int[] megaArray = new int[100000000];
+        long inicio = System.currentTimeMillis();
+        rotateArray(arrayR, 5);
+        long fin = System.currentTimeMillis();
+        System.out.println("Arreglo A1 rotado 5 veces: " + Arrays.toString(arrayR));
+        System.out.println("Tiempo de ejecución de rotateArray: " + (fin - inicio) + " milisegundos");
 
+        inicio = System.currentTimeMillis();
+        rotateArrayMejorado(arrayRM, 5);
+        fin = System.currentTimeMillis();
+        System.out.println("Arreglo A1 rotado 5 veces: " + Arrays.toString(arrayRM));
+        System.out.println("Tiempo de ejecución de rotateArrayMejorado: " + (fin - inicio) + " milisegundos");
+
+        //System.out.println("Arreglo B1 rotado 0 veces: " + Arrays.toString(arrayB1));
+		//System.out.println("Arreglo C1 rotado 6 veces: " + Arrays.toString(arrayC1));
 		System.out.println("\n\nFIN DE EJEMPLOS\n");
 	}
 }
