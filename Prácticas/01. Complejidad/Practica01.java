@@ -44,6 +44,51 @@ public class Practica01{
 		return result;
 	}
 
+	/** 
+	* Algoritmo 2 que hace la mezcla de dos arreglos ordenados desde la primera posición hasta
+	* una posición límite
+	* @param array1 el primer arreglo a mezlar
+	* @param n el límite de mezcla del primer arreglo
+	* @param array2 el segundo arreglo a mezclar
+	* @param m el límite de mezcla del segundo arreglo.
+	* @return un arreglo ordenado de longitud m+n con la mezcla definida.
+	*/
+	public static int[] mergeSortedArray2(int[] array1, int n, int[] array2, int m){
+		if(n > array1.length || m > array2.length)
+			throw new RuntimeException("Límites no válidos");
+		
+		int[] result = new int[n + m];
+		int pointer;
+		int j;
+		int i;
+		
+		for(pointer = 0,j=0 ,i=0; pointer < n+m; pointer++)
+		//System.out.println(pointer+" "+j+" "+i);
+
+		if(array2[i]<array1[j] && i<m){
+			result[pointer] = array2[i];
+			i++;
+		}else if(array1[j] < array2[i] && j<n){
+			result[pointer] = array1[j];
+			j++;
+
+		}else if(array1[j] == array2[i]){
+			result[pointer] = array1[j];
+			j++;
+			
+
+		}else if (j >= (n)){
+			result[pointer] = array2[i];
+			i++;
+
+		}else if (i >= (m)){
+			result[pointer] = array1[j];
+			j++;
+		}
+	
+		return result;
+	}
+
     /**
     * Verifica si un tablero contiene los números desde 0 hasta n-1 en cada fila y cada columna.
     * @param board el tablero de nxn que contiene elementos dentro del rango [0, n-1].
@@ -107,8 +152,18 @@ public class Practica01{
 
 		int[] arrayA1 = ArrayReader.readArray(directorio1 + "ArrayA1.txt");
 		int[] arrayA2 = ArrayReader.readArray(directorio1 + "ArrayA2.txt");
+		long inicio = System.currentTimeMillis();
 		int[] resultA = mergeSortedArray(arrayA1, 3, arrayA2, 5);
+		long fin = System.currentTimeMillis();
 		System.out.println("Resultado A: "+Arrays.toString(resultA));
+		System.out.println("El algoritmo 1 se tardó: "+ (fin - inicio) + " milisegundos.");
+
+		//Algoritmo 2 
+		inicio = System.currentTimeMillis();
+		int[] resultA2 = mergeSortedArray2(arrayA1, 3, arrayA2, 5);
+		fin = System.currentTimeMillis();
+		System.out.println("Resultado A2: "+Arrays.toString(resultA2));
+		System.out.println("El algoritmo 2 se tardó: "+ (fin - inicio) + " milisegundos.");
 
 		int[] arrayB1 = ArrayReader.readArray(directorio1 + "ArrayB1.txt");
 		int[] arrayB2 = ArrayReader.readArray(directorio1 + "ArrayB2.txt");
